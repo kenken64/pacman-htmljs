@@ -65,13 +65,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     createBoard()
     let pacmanCurrentIndex = 490
-    const pacmanEye = document.createElement('div')
-    const pacmanMouth = document.createElement('div')
     squares[pacmanCurrentIndex].classList.add('pac-man')
-    squares[pacmanCurrentIndex].appendChild(pacmanEye)
-    squares[pacmanCurrentIndex].appendChild(pacmanMouth)
-    pacmanEye.classList.add('pacman-eye')
-    pacmanMouth.classList.add('pacman-mouth')
+    
 
     function movePacman(e){
         squares[pacmanCurrentIndex].classList.remove('pac-man')
@@ -156,6 +151,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             this.startIndex = startIndex;
             this.speed = speed;
             this.currentIndex = startIndex;
+            this.previousIndex = startIndex;
             this.isScared = false
             this.timerId = NaN
         }
@@ -163,9 +159,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     ghosts = [
         new Ghost('blinky', 348, 300),
-        new Ghost('pinky', 376, 300),
-        new Ghost('inky', 351, 300),
-        new Ghost('clyde', 379, 300)
+        new Ghost('pinky', 376, 400),
+        new Ghost('inky', 351, 320),
+        new Ghost('clyde', 379, 500)
     ]
 
     // draw the ghsot on the grid
@@ -182,48 +178,23 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 
     function moveGhost(ghost) {
-        const directions = [-1 , +1, +width, -width]
-        let direction = directions[Math.floor(Math.random() * directions.length)]
-
+        console.log("moving ghost!")
+        
+        
         ghost.timerId = setInterval(function() {
-
+            const directions = [-1 , +1, +width, -width]
+            let direction = directions[Math.floor(Math.random() * directions.length)]
             if (!squares[ghost.currentIndex + direction].classList.contains('ghost') &&
              !squares[ghost.currentIndex + direction].classList.contains('wall')
             ) {
                 // remove the ghost classes
                 squares[ghost.currentIndex].classList.remove(ghost.className);
                 squares[ghost.currentIndex].classList.remove('ghost', 'scared-ghost');
-                
-                //move into the space
-                const [ghostX, ghostY] = getCoordinates(ghost.currentIndex)
-                const [pacmanX, pacmanY] = getCoordinates(pacmanCurrentIndex)
-                const [ghostNextX, ghostNextY] = getCoordinates(ghost.currentIndex + direction)
-                function isXCoordCloser() {
-                    if ((ghostNextX - pacmanX) > (ghostX - pacmanX)){
-                      return true
-                    } else return false
-                }
-
-                function isYCoordCloser() {
-                    if ((ghostNextY - pacmanY) > (ghostY - pacmanY)) {
-                        return true
-                    } else return false
-                }
-
-                if (isXCoordCloser() || isYCoordCloser()) {
-                    ghost.currentIndex += direction
-                    squares[ghost.currentIndex].classList.add(ghost.className, 'ghost')
-        
-                } else {
-                    squares[ghost.currentIndex].classList.add(ghost.className, 'ghost')
-                    direction = directions[Math.floor(Math.random() * directions.length)]
-                }
+                ghost.currentIndex += direction
+                ghost.previousIndex = ghost.currentIndex;
                 squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
             } else {
                 direction = directions[Math.floor(Math.random() * directions.length)]
-                if (direction < 0) {
-                    direction +=1
-                }
             }
             if (ghost.isScared) {
                 squares[ghost.currentIndex].classList.add('scared-ghost')

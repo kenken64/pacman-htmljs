@@ -13,7 +13,7 @@
 
 .pac-dot {
     background-color: green;
-    border: 5px solid white;
+    border: 2px solid white;
     box-sizing: border-box;
 }
 
@@ -28,18 +28,22 @@
 
 .blinky {
     background-color: darkred;
+    box-sizing: border-box;
 }
 
 .pinky {
     background-color:purple;
+    box-sizing: border-box;
 }
 
 .inky {
     background-color: cyan;
+    box-sizing: border-box;
 }
 
 .clyde {
-    background-color: orange;     
+    background-color: orange; 
+    box-sizing: border-box;    
 }
 
 
