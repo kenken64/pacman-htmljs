@@ -173,9 +173,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     ghosts.forEach(ghost=> moveGhost(ghost))
 
     //get the coordinates of pacman or blinky on the grid with X and Y axis
-    function getCoordinates(index) {
-        return [index % width, Math.floor(index / width)]
-    }
+    //function getCoordinates(index) {
+      //  return [index % width, Math.floor(index / width)]
+    //}
 
     function moveGhost(ghost) {
         console.log("moving ghost!")
